@@ -47,7 +47,9 @@ public class JinDieClient {
     }
 
     public JSONArray queryPage(JSONObject bodyParams) {
-        this.login();
+        while (aspNetSessionId == null || kdServiceSessionId == null) {
+            this.login();
+        }
         String url = "http://60.173.16.127:2021/k3cloud/Kingdee.BOS.WebApi.ServicesStub.DynamicFormService.ExecuteBillQuery.common.kdsvc";
         HttpResponse response = HttpRequest.post(url)
                 .cookie(String.format("ASP.NET_SessionId=%s; kdservice-sessionid=%s", aspNetSessionId, kdServiceSessionId))
@@ -59,7 +61,9 @@ public class JinDieClient {
     }
 
     public JSONObject queryInfo(JSONObject bodyParams) {
-        this.login();
+        while (aspNetSessionId == null || kdServiceSessionId == null) {
+            this.login();
+        }
         String url = "http://60.173.16.127:2021/k3cloud/Kingdee.BOS.WebApi.ServicesStub.DynamicFormService.View.common.kdsvc";
         HttpResponse response = HttpRequest.post(url)
                 .cookie(String.format("ASP.NET_SessionId=%s; kdservice-sessionid=%s", aspNetSessionId, kdServiceSessionId))
