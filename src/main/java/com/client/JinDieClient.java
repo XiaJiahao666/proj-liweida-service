@@ -47,7 +47,11 @@ public class JinDieClient {
     }
 
     public JSONArray queryPage(JSONObject bodyParams) {
-        while (aspNetSessionId == null || kdServiceSessionId == null) {
+        try {
+            if (aspNetSessionId == null || kdServiceSessionId == null) {
+                throw new RuntimeException();
+            }
+        } catch (Exception e) {
             this.login();
         }
         String url = "http://60.173.16.127:2021/k3cloud/Kingdee.BOS.WebApi.ServicesStub.DynamicFormService.ExecuteBillQuery.common.kdsvc";
@@ -61,7 +65,11 @@ public class JinDieClient {
     }
 
     public JSONObject queryInfo(JSONObject bodyParams) {
-        while (aspNetSessionId == null || kdServiceSessionId == null) {
+        try {
+            if (aspNetSessionId == null || kdServiceSessionId == null) {
+                throw new RuntimeException();
+            }
+        } catch (Exception e) {
             this.login();
         }
         String url = "http://60.173.16.127:2021/k3cloud/Kingdee.BOS.WebApi.ServicesStub.DynamicFormService.View.common.kdsvc";
