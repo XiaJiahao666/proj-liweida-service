@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  app:
+    container_name: proj-liweida-service
+    image: proj-liweida-service
+    environment:
+      # 配置jvm堆内存大小
+      - JAVA_OPTS=${JAVA_OPTS}
+      # 指定配置文件路径 --spring.config.location=/conf/application.yml
+#      - --spring.config.location=/conf/application.yml
+      - JAR_ARG=${JAR_ARG}
+    #    volumes:
+    # 挂载配置文件路径
+#      - ../src/main/resources/application.yml:/conf/application.yml
+    ports:
+      - ${PORT}:${PORT}
+    deploy:
+      resources:
+        limits:
+          memory: ${MEMORY}
+      restart_policy:
+        condition: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+networks:
+  default:
+    external:
+      name: custom-bridge
