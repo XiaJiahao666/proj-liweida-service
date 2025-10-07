@@ -4,7 +4,10 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.redis.RedisKeys;
+import com.utils.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +21,18 @@ public class JinDieClient {
 
     public void login() {
         try {
+            RedisClient redisClient = SpringContextUtils.getBean(RedisClient.class);
+            RedisKeys redisKeys = SpringContextUtils.getBean(RedisKeys.class);
+            String aspNetSessionIdKey = redisKeys.aspNetSessionId();
+            String kdServiceSessionIdKey = redisKeys.kdServiceSessionId();
+            Object aspNetSessionIdObj = redisClient.get(aspNetSessionIdKey);
+            Object kdServiceSessionIdObj = redisClient.get(kdServiceSessionIdKey);
+            if (ObjectUtils.isNotEmpty(aspNetSessionIdObj) && ObjectUtils.isNotEmpty(kdServiceSessionIdObj)) {
+                aspNetSessionId = aspNetSessionIdObj.toString();
+                kdServiceSessionId = kdServiceSessionIdObj.toString();
+                return;
+            }
+
             String url = "http://60.173.16.127:2021/K3Cloud/Kingdee.BOS.WebApi.ServicesStub.AuthService.ValidateUser.common.kdsvc";
             JSONObject bodyParams = new JSONObject();
             bodyParams.put("parameters", List.of("689e99d014d661", "小兰兰", "wulan0826", 2052));
@@ -49,7 +64,11 @@ public class JinDieClient {
             if (aspNetSessionId == null || kdServiceSessionId == null) {
                 throw new RuntimeException();
             }
+            redisClient.set(aspNetSessionIdKey, aspNetSessionId, 3600);
+            redisClient.set(kdServiceSessionIdKey, kdServiceSessionId, 3600);
         } catch (Exception e) {
+            aspNetSessionId = null;
+            kdServiceSessionId = null;
             this.login();
         }
     }

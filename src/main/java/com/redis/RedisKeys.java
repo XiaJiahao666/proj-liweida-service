@@ -22,4 +22,12 @@ public class RedisKeys {
     public String dingTalkAccessToken(String appKey) {
         return prefix() + String.format(":ding_talk:access_token:%s", appKey);
     }
+
+    public String aspNetSessionId() {
+        return prefix() + ":aspNetSessionId:";
+    }
+
+    public String kdServiceSessionId() {
+        return prefix() + ":aspNetSessionId:";
+    }
 }
