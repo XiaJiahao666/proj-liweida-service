@@ -72,5 +72,10 @@ public class SalesDo {
      */
     private String text1;
 
+    /**
+     * 需求数量
+     */
+    private String text2;
+
     private List<SalesProductDo> salesProductList;
 }

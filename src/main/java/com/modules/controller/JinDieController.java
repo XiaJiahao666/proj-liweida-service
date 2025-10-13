@@ -71,6 +71,7 @@ public class JinDieController {
         Model.put("F_LWD_Assistant5", Map.of("FNUMBER", salesDo.getAssistant5()));
         Model.put("F_LWD_Remarks", salesDo.getRemarks());
         Model.put("F_LWD_Text1", salesDo.getText1());
+        Model.put("F_LWD_Text2", salesDo.getText2());
         Model.put("FSaleOrderEntry", FSaleOrderEntry);
 
         JSONObject bodyParam = new JSONObject();
