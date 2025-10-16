@@ -41,7 +41,7 @@ public class JinDieController {
 
     @PostMapping("sales")
     public R<JSONObject> sales(@RequestBody SalesDo salesDo) {
-        log.info("销售订单参数======>{}", salesDo);
+        log.info("销售订单参数======>{}", JSON.toJSONString(salesDo));
         List<JSONObject> FSaleOrderEntry = new ArrayList<>();
         for (int i = 0; i < salesDo.getSalesProductList().size(); i++) {
             SalesProductDo salesProductDo = salesDo.getSalesProductList().get(i);
@@ -54,7 +54,10 @@ public class JinDieController {
             product.put("FUnitID", Map.of("FNUMBER", salesProductDo.getUnit()));
             product.put("FPriceUnitId", Map.of("FNUMBER", salesProductDo.getPriceUnit()));
             product.put("FDeliveryDate", salesProductDo.getDeliveryDate());
-            product.put("TaxNetPrice", salesProductDo.getTaxNetPrice());
+            product.put("FPrice", salesProductDo.getNoTaxPrice());
+            product.put("FAllAmount", salesProductDo.getAllAmount());
+            product.put("FIsFree", salesProductDo.getFlsFree());
+            product.put("FStockOrgId", Map.of("FNUMBER", salesProductDo.getStockOrgId()));
             product.put("Note", salesProductDo.getNote());
             product.put("F_LWD_Decimal1", salesProductDo.getDecimal1());
             product.put("F_LWD_Decimal2", salesProductDo.getDecimal2());

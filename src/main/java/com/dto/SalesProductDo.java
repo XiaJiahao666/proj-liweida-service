@@ -43,17 +43,24 @@ public class SalesProductDo {
     private String deliveryDate;
 
     /**
-     * 价税合计
+     * 单价
      */
-    private BigDecimal taxNetPrice;
+    private BigDecimal noTaxPrice;
 
     /**
      * 是否赠品
      */
+    private String flsFree;
+
+    /**
+     * 价税合计
+     */
+    private BigDecimal allAmount;
 
     /**
      * 库存组织
      */
+    private String stockOrgId;
 
     /**
      * 备注
