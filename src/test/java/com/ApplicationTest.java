@@ -6,6 +6,8 @@ import com.client.DingTalkYiDaClient;
 import com.config.DingTalkConfig;
 import com.config.DingTalkYiDaConfig;
 import com.config.YiDaConfig;
+import com.modules.schduler.MaterialTask;
+import com.utils.SpringContextUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -18,6 +20,12 @@ import java.util.Map;
 
 @SpringBootTest
 public class ApplicationTest {
+
+    @Test
+    public void MaterialTask() {
+        MaterialTask materialTask = SpringContextUtils.getBean(MaterialTask.class);
+        materialTask.run();
+    }
 
     @Test
     public void UpdateInstancesDataTest() {

@@ -8,14 +8,14 @@ import lombok.experimental.UtilityClass;
 public class YiDaConfig {
 
     public JSONObject getDingTalkConfig() {
-        return JSON.parseObject("{\"appKey\":\"ding2c7psoboguhdyvnk\",\"agentId\":3766768189,\"appSecret\":\"zpKIQn4z8SrZTPmxKilAI7Eg-XidQGb8Vlg9DB85nNVVwDf-wzbgSQwDfx0_Etw_\"}");
+        return JSON.parseObject("{\"appKey\":\"dingir1ggsfgxg5tnm0i\",\"agentId\":4051040819,\"appSecret\":\"cZqvz2KqFNf7KDEendbr34HuBUSJwmTlv7qcND63l6X00AS7Vl1yGfInE59BPZxm\"}");
     }
 
     public JSONObject getDingTalkYiDaConfig() {
-        return JSON.parseObject("{\"domain\":\"https://api.dingtalk.com\",\"userId\":\"263609342222576294\",\"appType\":\"APP_JZGW187VKTTUVV1OFCSD\",\"systemToken\":\"ULD66N812SOUQV2J6EAN5AXMR0A33STBSJM9MKD\"}");
+        return JSON.parseObject("{\"domain\":\"https://api.dingtalk.com\",\"userId\":\"1347603326689084\",\"appType\":\"APP_KAVYSD41EP15CZ3XLJFG\",\"systemToken\":\"69E66NA17YBYDLEY5RUZJ4OQ20X23BWK1SQEMC4\"}");
     }
 
     public JSONObject getFormConfig() {
-        return JSON.parseObject("{\"useFormSchema\":{\"formUuid\":\"FORM-CDBEC36EC79A4E1391947A119AD12B34TJBN\"}}");
+        return JSON.parseObject("");
     }
 }
