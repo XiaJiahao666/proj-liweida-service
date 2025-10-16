@@ -77,5 +77,15 @@ public class SalesDo {
      */
     private String text2;
 
+    /**
+     * 变更原因
+     */
+    private String note;
+
+    /**
+     * 开票信息
+     */
+    private String remarks1;
+
     private List<SalesProductDo> salesProductList;
 }

@@ -54,6 +54,13 @@ public class JinDieController {
             product.put("FUnitID", Map.of("FNUMBER", salesProductDo.getUnit()));
             product.put("FPriceUnitId", Map.of("FNUMBER", salesProductDo.getPriceUnit()));
             product.put("FDeliveryDate", salesProductDo.getDeliveryDate());
+            product.put("TaxNetPrice", salesProductDo.getTaxNetPrice());
+            product.put("Note", salesProductDo.getNote());
+            product.put("F_LWD_Decimal1", salesProductDo.getDecimal1());
+            product.put("F_LWD_Decimal2", salesProductDo.getDecimal2());
+            product.put("F_LWD_Price", salesProductDo.getPrice());
+            product.put("F_LWD_Amount", salesProductDo.getAmount());
+            product.put("F_LWD_Decimal", salesProductDo.getDecimal());
             FSaleOrderEntry.add(product);
         }
 
@@ -72,6 +79,8 @@ public class JinDieController {
         Model.put("F_LWD_Remarks", salesDo.getRemarks());
         Model.put("F_LWD_Text1", salesDo.getText1());
         Model.put("F_LWD_Text2", salesDo.getText2());
+        Model.put("Note", salesDo.getNote());
+        Model.put("F_LWD_Remarks1", salesDo.getRemarks1());
         Model.put("FSaleOrderEntry", FSaleOrderEntry);
 
         JSONObject bodyParam = new JSONObject();
