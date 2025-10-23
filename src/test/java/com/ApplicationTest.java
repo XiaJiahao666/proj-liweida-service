@@ -1,8 +1,11 @@
 package com;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.client.DingTalkClient;
 import com.client.DingTalkYiDaClient;
+import com.client.JinDieClient;
 import com.config.DingTalkConfig;
 import com.config.DingTalkYiDaConfig;
 import com.config.YiDaConfig;
@@ -11,12 +14,10 @@ import com.utils.SpringContextUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootTest
 public class ApplicationTest {
@@ -66,5 +67,46 @@ public class ApplicationTest {
         msgParam.put("text", text);
         JSONObject result = dingTalkClient.robotOtomessageBatchSend(robotCode, dingUserIdList, msgKey, msgParam.toJSONString());
         System.out.println(result);
+    }
+
+    @Test
+    public void productData() throws IOException {
+        List<List<String>> headList = List.of(List.of("Number", "Name", "Specification", "Unit", "金蝶更新时间"));
+        List<List<String>> valueList = new ArrayList<>();
+        boolean flag = true;
+        int StartRow = 0;
+        while (flag) {
+            JSONObject pageParams = new JSONObject();
+            pageParams.put("FormId", "BD_MATERIAL");
+            pageParams.put("TopRowCount", 0);
+            pageParams.put("Limit", 2000);
+            pageParams.put("StartRow", StartRow);
+            pageParams.put("FilterString", "");
+            pageParams.put("OrderString", "");
+            pageParams.put("FieldKeys", "FNumber,FName,FSpecification,FModifyDate");
+
+            JinDieClient jinDieClient = new JinDieClient();
+            JSONObject bodyParam = new JSONObject();
+            bodyParam.put("parameters", List.of(pageParams));
+            JSONArray materialArr = jinDieClient.queryPage(bodyParam);
+            if (materialArr.isEmpty()) {
+                flag = false;
+            }
+            List<String> materialList = materialArr.toJavaList(String.class);
+            materialList.forEach(item -> {
+                List<String> list = JSONArray.parseArray(item).toJavaList(String.class);
+                JSONObject infoParam = new JSONObject();
+                infoParam.put("Number", list.get(0));
+                bodyParam.put("parameters", List.of("BD_MATERIAL", infoParam.toJSONString()));
+                JSONObject info = jinDieClient.queryInfo(bodyParam);
+                String unitNumber = info.getJSONObject("Result").getJSONObject("Result").getJSONArray("MaterialBase")
+                        .toJavaList(JSONObject.class).get(0).getJSONObject("BaseUnitId").getString("Number");
+                valueList.add(List.of(list.get(0), list.get(1), list.get(2), unitNumber, list.get(3)));
+            });
+            StartRow = StartRow + 2000;
+        }
+
+        String fileName = "D:/YiDaFile/product.xlsx";
+        EasyExcel.write(fileName).head(headList).sheet().doWrite(valueList);
     }
 }
