@@ -71,10 +71,9 @@ public class ApplicationTest {
 
     @Test
     public void productData() throws IOException {
-        List<List<String>> headList = List.of(List.of("Number", "Name", "Specification", "Unit", "金蝶更新时间"));
-        List<List<String>> valueList = new ArrayList<>();
         boolean flag = true;
         int StartRow = 0;
+        Map<String, JSONObject> map = new HashMap<>();
         while (flag) {
             JSONObject pageParams = new JSONObject();
             pageParams.put("FormId", "BD_MATERIAL");
@@ -101,10 +100,23 @@ public class ApplicationTest {
                 JSONObject info = jinDieClient.queryInfo(bodyParam);
                 String unitNumber = info.getJSONObject("Result").getJSONObject("Result").getJSONArray("MaterialBase")
                         .toJavaList(JSONObject.class).get(0).getJSONObject("BaseUnitId").getString("Number");
-                valueList.add(List.of(list.get(0), list.get(1), list.get(2), unitNumber, list.get(3)));
+                String key = String.format("%s-%s-%s-%s", list.get(0), list.get(1), list.get(2), unitNumber);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("Number", list.get(0));
+                jsonObject.put("Name", list.get(1));
+                jsonObject.put("Specification", list.get(2));
+                jsonObject.put("Unit", unitNumber);
+                jsonObject.put("updateDate", list.get(3));
+                map.put(key, jsonObject);
             });
             StartRow = StartRow + 2000;
         }
+
+        List<List<String>> headList = List.of(List.of("Number", "Name", "Specification", "Unit", "金蝶更新时间"));
+        List<List<String>> valueList = new ArrayList<>();
+        map.forEach((key, value) -> {
+            valueList.add(List.of(value.getString("Number"),value.getString("Name"),value.getString("Specification"),value.getString("Unit"),value.getString("updateDate")));
+        });
 
         String fileName = "D:/YiDaFile/product.xlsx";
         EasyExcel.write(fileName).head(headList).sheet().doWrite(valueList);
