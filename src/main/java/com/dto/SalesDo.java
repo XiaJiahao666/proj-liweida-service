@@ -87,5 +87,10 @@ public class SalesDo {
      */
     private String remarks1;
 
+    /**
+     * 结算币种
+     */
+    private String currency;
+
     private List<SalesProductDo> salesProductList;
 }

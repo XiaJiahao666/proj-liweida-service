@@ -67,6 +67,10 @@ public class JinDieController {
             FSaleOrderEntry.add(product);
         }
 
+        JSONObject FSaleOrderFinance = new JSONObject();
+        FSaleOrderFinance.put("FEntryId", 0);
+        FSaleOrderFinance.put("FSettleCurrId", Map.of("FNumber", salesDo.getCurrency()));
+
         JSONObject Model = new JSONObject();
         Model.put("FBillNo", salesDo.getSerialNumber());
         Model.put("FBillTypeID", Map.of("FNUMBER", salesDo.getType()));
@@ -84,6 +88,7 @@ public class JinDieController {
         Model.put("F_LWD_Text2", salesDo.getText2());
         Model.put("Note", salesDo.getNote());
         Model.put("F_LWD_Remarks1", salesDo.getRemarks1());
+        Model.put("FSaleOrderFinance", FSaleOrderFinance);
         Model.put("FSaleOrderEntry", FSaleOrderEntry);
 
         JSONObject bodyParam = new JSONObject();
